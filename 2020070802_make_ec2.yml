@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    myaccess_key: AKIA2UNBPTQPMJJ5LHTL
+    mysecret_key: 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
+    myregion: us-east-2
+    ami_image: ami-016b213e65284e9c9
+    instance_type: "t2.micro"
+    device_name: "/dev/xvda"
+    device_type: "gp2"
+    volume_size: 20
+
+  tasks:
+  - name: installEC2
+    ec2:
+      image: "{{ ami_image }}"
+      instance_type: "{{ instance_type }}"
+      aws_access_key: "{{ myaccess_key }}"
+      aws_secret_key: "{{ mysecret_key }}"
+      region: "{{ myregion }}"
+      wait: yes
+      wait_timeout: 300
+      volumes:
+      - device_name: "{{ device_name }}"
+        device_type: "{{ device_type }}"
+        volume_size: "{{ volume_size }}"
+        delete_on_termination: yes
